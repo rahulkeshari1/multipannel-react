@@ -1,0 +1,22 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  scrollbar-width: none;
+}
+
+body {
+  font-family: 'Poppins', sans-serif ;
+}
+  
+.css-19kzrtu{
+  padding: 15px 15px !important;
+}
+.css-4cv4eo{
+    padding: 0px !important;
+
+}
+.css-19midj6 {
+  padding: 10px !important;
+}
