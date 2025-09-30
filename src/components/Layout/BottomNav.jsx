@@ -50,7 +50,7 @@ const BottomNav = ({ onNavigation, onMenuClick, currentPath }) => {
     <Paper
       sx={{
         position: 'fixed',
-        bottom: 0,
+        bottom: -1,
         left: 0,
         right: 0,
         display: { xs: 'block', md: 'none' },
@@ -74,10 +74,10 @@ const BottomNav = ({ onNavigation, onMenuClick, currentPath }) => {
             color: theme.palette.text.secondary,
             minWidth: 'auto',
             padding: '8px 0',
-            transition: 'all 0.3s ease',
+            transition: 'all 0.2s ease',
             '&.Mui-selected': {
               color: theme.palette.primary.main,
-              transform: 'translateY(-5px)',
+              transform: 'translateY(-3px)',
             },
           },
         }}
@@ -102,7 +102,7 @@ const BottomNav = ({ onNavigation, onMenuClick, currentPath }) => {
                 )}
               </Box>
             } 
-            icon={null} // We moved the icon to the label to include the dot
+            icon={null} 
             sx={{
               '& .MuiBottomNavigationAction-label': {
                 fontSize: '0.75rem',

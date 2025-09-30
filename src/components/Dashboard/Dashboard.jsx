@@ -81,10 +81,8 @@ const Dashboard = () => {
         setDetailedData(JSON.parse(cachedDetailedData));
       }
 
-      // Still fetch fresh data in the background
       fetchDashboardData();
     } else {
-      // No cached data, fetch fresh
       fetchDashboardData();
     }
   }, [timeFilter]);
@@ -399,7 +397,7 @@ const Dashboard = () => {
                   icon={<KeyIcon />}
                   color={theme.palette.success.main}
                 />
-            
+
                 <StatCard
                   title="Total Recharge"
                   value={`₹${dashboardData.data.total_recharge}`}
@@ -419,30 +417,33 @@ const Dashboard = () => {
                   color={theme.palette.success.main}
                 />
 
-                 <StatCard
+                <StatCard
                   title="Total Bonus"
                   value={
-          dashboardData?.data?.bonus?.find(b => b.type === 'bonus_earned')?.value || 0
-                  
+                    dashboardData?.data?.bonus?.find(
+                      (b) => b.type === "bonus_earned"
+                    )?.value || 0
                   }
                   icon={<KeyIcon />}
                   color={theme.palette.warning.main}
                 />
 
-                  <StatCard
+                <StatCard
                   title="Claimed Bonus "
                   value={
-          dashboardData?.data?.bonus?.find(b => b.type === 'bonus_claimed')?.value || 0
-                  
+                    dashboardData?.data?.bonus?.find(
+                      (b) => b.type === "bonus_claimed"
+                    )?.value || 0
                   }
                   color={theme.palette.warning.main}
                 />
 
-                   <StatCard
+                <StatCard
                   title="Available Bonus"
                   value={
-          dashboardData?.data?.bonus?.find(b => b.type === 'available_bonus')?.value || 0
-                  
+                    dashboardData?.data?.bonus?.find(
+                      (b) => b.type === "available_bonus"
+                    )?.value || 0
                   }
                   icon={<KeyIcon />}
                   color={theme.palette.warning.main}
@@ -516,7 +517,7 @@ const Dashboard = () => {
                           >
                             <Card
                               sx={{
-                                p: 2,
+                                p: 1,
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
@@ -563,6 +564,54 @@ const Dashboard = () => {
                                     {provider.unsold_keys}
                                   </Typography>
                                 </Box>
+                              </Box>
+                              <Box
+                                display="flex"
+                                justifyContent="space-around"
+                                width="100%"
+                                mt={1}
+                              >
+                                <Box textAlign="center">
+                                  <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                  >
+                                    Revenue
+                                  </Typography>
+                                  <Typography variant="h6" color="warning.main">
+                                    {provider.total_revenue}
+                                  </Typography>
+                                </Box>
+
+
+                                     <Box textAlign="center">
+                                  <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                  >
+                                    Cost
+                                  </Typography>
+                                  <Typography variant="h6" color="#a200ffff">
+                                    +{provider.total_cost}
+                                  </Typography>
+                                </Box>
+
+                                <Box textAlign="center">
+                                  <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                  >
+                                    Profit
+                                  </Typography>
+                                  <Typography variant="h6" color="green">
+                                    +{provider.total_profit}
+                                  </Typography>
+                                </Box>
+
+
+
+
+                           
                               </Box>
                             </Card>
                           </Grid>
@@ -671,7 +720,6 @@ const Dashboard = () => {
                   </Paper>
                 </Grid>
 
-                {/* Top Providers Section - Only for owners */}
                 {["owner", "reseller", "admin"].includes(
                   dashboardData.user_role
                 ) &&

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // MUI Material imports
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -29,10 +29,13 @@ import SuccessIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 
 const ResetKey = () => {
-  const [providers, setProviders] = useState([]);
-  const [selectedProvider, setSelectedProvider] = useState('');
+  const [providers, setProviders] = useState([
+    { id: 'win-ios', name: 'Win iOS', status: 'active' },
+    { id: 'deadeye', name: 'DeadEye', status: 'active' },
+    { id: 'vision', name: 'VISION/Lethal', status: 'active' },
+  ]);
+  const [selectedProvider, setSelectedProvider] = useState('win-ios');
   const [keyCode, setKeyCode] = useState('');
-  const [loading, setLoading] = useState(true);
   const [resetting, setResetting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -43,54 +46,6 @@ const ResetKey = () => {
   
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  useEffect(() => {
-    fetchProviders();
-  }, []);
-
-  const fetchProviders = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        setError('Authentication token not found');
-        setLoading(false);
-        return;
-      }
-
-      const headers = {
-        Authorization: `Bearer ${token}`
-      };
-
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_BASE_URL}/keys/available-providers`,
-        { headers }
-      );
-
-      if (response.data.success) {
-        // Filter to only show "Win iOS" provider
-        const winIosProvider = response.data.data.find(
-          provider => provider.name.toLowerCase().includes('win') && 
-                      provider.name.toLowerCase().includes('ios')
-        );
-        
-        if (winIosProvider) {
-          setProviders([winIosProvider]);
-          setSelectedProvider(winIosProvider.id);
-        } else {
-          setProviders(response.data.data);
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching providers:', err);
-      setError(err.response?.data?.error || 'Failed to load providers data');
-      showSnackbar(err.response?.data?.error || 'Failed to load providers data', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const speak = (text) => {
     if (!voiceEnabled) return;
@@ -165,17 +120,6 @@ const ResetKey = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh" flexDirection="column">
-        <CircularProgress />
-        <Typography variant="body1" sx={{ mt: 2 }}>
-          Loading providers... 🔄
-        </Typography>
-      </Box>
-    );
-  }
-
   return (
     <Box p={isMobile ? 2 : 4} sx={{ marginBottom: '80px' }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
@@ -196,25 +140,10 @@ const ResetKey = () => {
 
     
 
-      {error && (
-        <Alert 
-          severity="error" 
-          sx={{ mb: 2 }} 
-          onClose={() => setError('')}
-          icon={<WarningIcon fontSize="inherit" />}
-        >
-          {error}
-        </Alert>
-      )}
-
-      {success && (
-        <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')} icon={<SuccessIcon fontSize="inherit" />}>
-          {success}
-        </Alert>
-      )}
+ 
 
       <Grid container spacing={3}>
-        <Grid size={{xs:12, md:6,}} >
+        <Grid item xs={12} md={6}>
           <Card sx={{ borderRadius: 1, boxShadow: theme.shadows[3], height: '100%' }}>
             <CardContent>
               <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
@@ -228,7 +157,6 @@ const ResetKey = () => {
                 value={selectedProvider}
                 onChange={(e) => setSelectedProvider(e.target.value)}
                 sx={{ mb: 2 }}
-                disabled={providers.length === 1}
               >
                 {providers.map(provider => (
                   <MenuItem key={provider.id} value={provider.id}>
@@ -262,7 +190,6 @@ const ResetKey = () => {
             </CardContent>
           </Card>
         </Grid>
-
       </Grid>
 
       <Snackbar
@@ -279,6 +206,7 @@ const ResetKey = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      
     </Box>
   );
 };

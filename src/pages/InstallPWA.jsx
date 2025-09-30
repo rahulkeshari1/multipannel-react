@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 // MUI Components
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
+const Dialog = lazy(() => import("@mui/material/Dialog"));
+
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,11 +19,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+const Snackbar = lazy(() => import("@mui/material/Snackbar"));
+const Alert = lazy(() => import("@mui/material/Alert"));
 
 // Hooks
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 // Icons
 import CloseIcon from '@mui/icons-material/Close';
